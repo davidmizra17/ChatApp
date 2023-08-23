@@ -4,11 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start" : "node backend/server.js"
+    "start": "nodemon backend/server.js"
   },
   "author": "David Mizrahi",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "react-router-dom": "^5.3.4"
   }
 }
