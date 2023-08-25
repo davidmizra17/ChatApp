@@ -8,7 +8,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password, pic } = req.body
     
     if (!name || !email || !password) {
-        req.status(400)
+        res.status(400)
         throw new Error("Please enter all the fields")
 
 
@@ -48,7 +48,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (user && (await User.matchPassword(password))) {
+    if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user._id,
             name: user.name,

@@ -6,27 +6,139 @@ import {
     Box,
     InputGroup,
     InputRightElement,
-    Button
+    Button,
+    useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useHistory } from 'react-router';
+import axios, {isCancel, AxiosError} from 'axios';
 
 const SignUp = () => {
     const [show, setShow] = useState(false)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [ConfirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [pic, setPic] = useState();
+    const [loading, setLoading] = useState(false)
+    
+    const toast = useToast();
+    const history = useHistory(); 
 
     const handleClick = () => setShow(!show);
 
-    const postDetails = pics => { };
+    const postDetails = pics => {
+        setLoading(true);
+        if (pic === undefined) {
+            toast({
+                title: 'Please Select an Image!',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+            return;
+        }
 
-    const submitHandler = () => {
+        if (pics.type === "image/jpeg" || pics.type === "image/png") {
+            const data = new FormData();
+            data.append("file", pics)
+            data.append("upload_preset", "ChatEz");
+            data.append("cloud_name", "dx6wixhkm");
+            fetch("https://api.cloudinary.com/v1_1/dx6wixhkm/image/upload", {
+                method: 'post',
+                body: data,
 
+            }).then((res) => res.json())
+                .then(data => {
+                    setPic(data.url.toString());
+                    setLoading(false)
+                });
+                
+        } else {
+            toast({
+                title: 'Please Select an Image!',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+            setLoading(false);
+            return;
+            }
+     };
+
+    const submitHandler = async () => {
+        setLoading(true);
+        console.log("EMPIEZA HANDLER")
+
+        if (!name || !email || !password || !confirmPassword) {
+            toast({
+                title: 'Please Fill the Required Fields!',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+            setLoading(false);
+            return;
+        }
+        console.log(name, email, password, pic);
+
+        if (password != confirmPassword) {
+            toast({
+                title: 'Passwords Do Not Match!',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+            return;
+        }
+        console.log(name, email, password, pic);
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            }
+            const { data } = await axios.post(
+                "http://localhost:8000/api/user",
+                {
+                    name,
+                    email,
+                    password,
+                    pic
+                },
+                config
+            );
+            console.log(data)
+            toast({
+                title: 'Registration Successful',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+        
+            localStorage.setItem('userInfo', JSON.stringify(data));
+            setLoading(false);
+            history.push('/chats')
+
+        
+        } catch (error) {
+            toast({
+                title: 'Error Occured During Registration!',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom'
+            });
+            setLoading(false);
+        }
     }
 
-    return (
+    return (  
       <VStack spacing='5px'>
           <FormControl id='first-name' isRequired>
                 <FormLabel>Name</FormLabel>
@@ -101,10 +213,11 @@ const SignUp = () => {
                     </Box>
                 </FormControl>
                 <Button
-                    colorScheme='purple'
-                    width={'100%'}
-                    style={{ marginTop: 15 }}
-                    onClick={submitHandler}
+                colorScheme='purple'
+                width={'100%'}
+                style={{ marginTop: 15 }}
+                onClick={submitHandler}
+                isLoading={loading}
                 >
                     Sign Up
 

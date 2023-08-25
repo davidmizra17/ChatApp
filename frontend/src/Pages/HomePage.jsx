@@ -4,7 +4,7 @@ import Login from '../components/authentication/Login'
 import SignUp from '../components/authentication/SignUp'
 const HomePage = () => {
   return (
-    <Container maxW='xl' centerContent>
+    <Container maxW='xl' >
       
       <Box
         d='flex'
@@ -18,7 +18,7 @@ const HomePage = () => {
 
       >
         
-        <Text centerContent fontSize='4xl' fontFamily='work sans' color='black'>ChatEZ</Text>
+        <Text fontSize='4xl' fontFamily='work sans' color='black'>ChatEZ</Text>
      
       </Box >
 
