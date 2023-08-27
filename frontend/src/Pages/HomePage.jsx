@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Box, Text, Tab, Tabs, TabList, TabPanel, TabPanels } from '@chakra-ui/react'
 import Login from '../components/authentication/Login'
 import SignUp from '../components/authentication/SignUp'
+import { useHistory } from 'react-router-dom'
+import { Center, Square, Circle } from '@chakra-ui/react'
 const HomePage = () => {
+
+  const history = useHistory();
+
+  useEffect(() => {
+    
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) history.push("/chats");
+
+  }, [history])
+
   return (
-    <Container maxW='xl' >
+    <Container maxW='xl' centerContent>
       
       <Box
         d='flex'
@@ -17,8 +30,9 @@ const HomePage = () => {
         borderWidth='1px'
 
       >
-        
-        <Text fontSize='4xl' fontFamily='work sans' color='black'>ChatEZ</Text>
+        <Center>
+          <Text fontSize='4xl' fontFamily='Work sans' className='nosecua'>ChatEZ</Text>
+          </Center>
      
       </Box >
 
