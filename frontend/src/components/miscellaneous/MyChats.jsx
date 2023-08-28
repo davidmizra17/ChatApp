@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
+import GroupChatModal from "./GroupChatModal";
 import { getSender } from "../../config/ChatLogics";
 
 
@@ -73,14 +74,19 @@ export const MyChats = () => {
           justifyContent="space-between"        
           alignItems="center"
       >
-          My Chats
+        My Chats
+        
+        <GroupChatModal>
+
           <Button
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
-          >
+            >
             New Group Chat
           </Button>
+            
+        </GroupChatModal>
       </Box>
       
       <Box
@@ -90,7 +96,8 @@ export const MyChats = () => {
         bg='#F8F8F8'
         width={'100%'}
         height={'100%'}
-        borderHeight='lg'
+        // borderHeight='lg'
+        
         overflow={'hidden'}
       >
         {chats ? (

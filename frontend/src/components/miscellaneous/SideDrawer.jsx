@@ -122,22 +122,26 @@ export const SideDrawer = () => {
       if (!chats.find(c => c._id === data._id)) setChats([data, ...chats]);
 
       setSelectedChat(data);
+
+      
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
       
       
       
-      onClose();
     
-    } catch (error) {
-      toast({
-        title: 'Error fetching chat',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom'
-      });
-    }
-    setLoadingChat(false);
+  } catch (error) {
+    toast({
+      title: 'Error fetching chat',
+      description: error.message,
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+      position: 'bottom'
+    });
+  }
+  setLoadingChat(false);
+  onClose();
   }
 
   return (
