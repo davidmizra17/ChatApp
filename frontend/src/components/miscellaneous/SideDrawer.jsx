@@ -29,14 +29,14 @@ import { useToast } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import { Spinner } from '@chakra-ui/react';
 import ChatLoading from '../ChatLoading'
-import UserListItem from '../userAvatar/UserListitem';
+import UserListItem from '../userAvatar/UserListItem';
 
 export const SideDrawer = () => {
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState();
+  const [loadingChat, setLoadingChat] = useState(false);
 
   const { user, setSelectedChat, chats, setChats } = ChatState();  
   const history = useHistory();
@@ -64,7 +64,11 @@ export const SideDrawer = () => {
         }
       }
       const { data } = await axios.get(`http://localhost:8000/api/user?search=${search}`, config)
+        
+      setLoading(false);
       
+      setSearchResult(data)
+
       if (data == 0) {
         toast({
           title: 'No data found',
@@ -79,8 +83,7 @@ export const SideDrawer = () => {
       
       console.log(data)
       
-      setLoading(false);
-      setSearchResult(data)
+    
 
       
 
@@ -123,8 +126,9 @@ export const SideDrawer = () => {
 
       setSelectedChat(data);
 
-      
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      setLoadingChat(false);
+      onClose();
+    // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
       
       
@@ -140,8 +144,7 @@ export const SideDrawer = () => {
       position: 'bottom'
     });
   }
-  setLoadingChat(false);
-  onClose();
+  
   }
 
   return (

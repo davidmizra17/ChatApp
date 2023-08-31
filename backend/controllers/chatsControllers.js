@@ -149,11 +149,11 @@ const accessChat = asyncHandler(async (req, res) => {
             { users: { $elemMatch: { $eq: userId } } },
             
         ]
-    }).populate("users", "-password").populate("latestMessasge");
+    }).populate("users", "-password").populate("latestMessage");
     console.log(typeof (isChat));
 
     isChat = await User.populate(isChat, {
-        path: 'latestMesssage.sender',
+        path: 'latestMessage.sender',
         select: "name pic email",
     });
 

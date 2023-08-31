@@ -20,7 +20,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
-import UserListItem from '../userAvatar/UserListitem';
+import UserListItem from '../userAvatar/UserListItem';
 
 
 const GroupChatModal = ({ children }) => {
@@ -101,13 +101,14 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        `/api/chat/group`,
+        `http://localhost:8000/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
         },
         config
       );
+      console.log(groupChatName)
       setChats([data, ...chats]);
       onClose();
       toast({
@@ -173,6 +174,7 @@ const GroupChatModal = ({ children }) => {
               // <ChatLoading />
               <div>Loading...</div>
             ) : (
+                
               searchResult
                 ?.slice(0, 4)
                 .map((user) => (
@@ -180,9 +182,14 @@ const GroupChatModal = ({ children }) => {
                     key={user._id}
                     user={user}
                     handleFunction={() => handleGroup(user)}
+                    
                   />
+                
+
                 ))
+        
             )}
+            
           </ModalBody>
           <ModalFooter>
             <Button onClick={handleSubmit} colorScheme="blue">
