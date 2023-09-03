@@ -8,12 +8,12 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <ChatContext.Provider>
-      <ChakraProvider>
     <BrowserRouter>
+      <ChakraProvider>
         <ChatProvider>
           <App />
         </ChatProvider>
-      </BrowserRouter>
       </ChakraProvider>
+      </BrowserRouter>
   // </ChatContext.Provider>,
 )

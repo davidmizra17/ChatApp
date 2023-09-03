@@ -5,6 +5,7 @@ const { chats } = require("./data/data");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes.js");
 const chatRoutes = require("../backend/routes/chatRoutes")
+const messageRoutes = require("./routes/messagesRoutes")     
 const { notFound, errorHandler } = require("../backend/middleware/errorMiddleware")
 
 
@@ -22,6 +23,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
+app.use('/api/messages', messageRoutes)
+
 
 app.use(notFound)
 app.use(errorHandler)
