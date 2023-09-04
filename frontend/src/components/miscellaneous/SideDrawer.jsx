@@ -28,6 +28,9 @@ import ProfileModal from './ProfileModal';
 import { useToast } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import { Spinner } from '@chakra-ui/react';
+import { getSender } from "../../config/ChatLogics";
+import NotificationBadge from "react-notification-badge";
+import Effect from 'react-notification-badge/lib/components/Effect';
 import ChatLoading from '../ChatLoading'
 import UserListItem from '../userAvatar/UserListItem';
 
@@ -38,7 +41,7 @@ export const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
 
-  const { user, setSelectedChat, chats, setChats } = ChatState();  
+  const { user, setSelectedChat, chats, setChats, notification, setNotification } = ChatState();  
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast()
@@ -137,7 +140,7 @@ export const SideDrawer = () => {
   } catch (error) {
     toast({
       title: 'Error fetching chat',
-      description: error.message,
+      description: 'que loquetera',
       status: 'error',
       duration: 5000,
       isClosable: true,
@@ -177,9 +180,26 @@ export const SideDrawer = () => {
         </Center>
         <div>
           <Menu>
-            <MenuButton p={1} className='nosecua' placement="right">
+            <MenuButton p={1}>
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize={'2xl'} m={1} />
             </MenuButton>
+            <MenuList pl={2}>
+              {!notification.length && "No new messages"}
+              {notification.map((notif) => (
+                <MenuItem key={notif._id} onClick={() => {
+                  setSelectedChat(notif.chat)
+                  setNotification(notification.filter((n) => n !== notif)) 
+                  
+                }}>
+                  {notif.caht.isGroupChat ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                  </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />} >
@@ -188,7 +208,7 @@ export const SideDrawer = () => {
             </MenuButton>
             <MenuList>
               <ProfileModal user={user}>
-                {/* <MenuItem>My Profile</MenuItem> */}
+                <MenuItem>My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
 
