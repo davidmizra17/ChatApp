@@ -1,6 +1,7 @@
-import { Box, useToast, Button, Stack, Text } from "@chakra-ui/react" 
+import { Box, Button, Stack, Text } from "@chakra-ui/react" 
 import { AddIcon } from "@chakra-ui/icons"
 import { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/toast";
 import { ChatState } from "../context/ChatProvider";
 import axios from "axios";
 import ChatLoading from "./ChatLoading";
@@ -8,7 +9,7 @@ import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { getSender } from "../config/ChatLogics";
 
 
-export const MyChats = ({fecthAgain}) => {
+export const MyChats = ({ fetchAgain }) => {
 
   const [loggedUser, setLoggedUser] = useState();
   const {
@@ -48,7 +49,7 @@ export const MyChats = ({fecthAgain}) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
     fetchChats()
-  }, [])
+  }, [fetchAgain])
   return (
     
       <Box

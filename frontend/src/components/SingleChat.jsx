@@ -49,6 +49,7 @@ var socket, selectedChatCompare;
       };
 
       setLoading(true);
+      console.log(selectedChat._id)
 
       const { data } = await axios.get(
         `http://localhost:8000/api/message/${selectedChat._id}`,
@@ -64,22 +65,14 @@ var socket, selectedChatCompare;
         title: "Error Occured!",
         description: "Failed to Load the Messages",
         status: "error",
-        duration: 8000,
+        duration: 5000,
         isClosable: true,
         position: "bottom",
       });
     }
   };
-     useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-
-    // eslint-disable-next-line
-  }, []);
-
+  
+  
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       socket.emit("stop typing", selectedChat._id);
@@ -114,7 +107,15 @@ var socket, selectedChatCompare;
     }
   };
 
+useEffect(() => {
+ socket = io(ENDPOINT);
+ socket.emit("setup", user);
+ socket.on("connected", () => setSocketConnected(true));
+ socket.on("typing", () => setIsTyping(true));
+ socket.on("stop typing", () => setIsTyping(false));
 
+ // eslint-disable-next-line
+}, []);
 
   useEffect(() => {
     fetchMessages();
