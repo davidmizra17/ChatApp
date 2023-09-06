@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+.App{
+  min-height: 100vh;
+  display: flex;
+  background-image: url("./chat-dialog-boxes-glass-morphism-effect-style-transparent-frosted-acrylic-speech-bubble-form_190776-3.jpg.webp");
+  background-size: cover;
+  background-position: center;
+  
+
+}
+
+.nosecua{
+  display: flex;
+  text-align: end;
+  text-decoration-color: blueviolet;
+  text-orientation: sideways;
+}
